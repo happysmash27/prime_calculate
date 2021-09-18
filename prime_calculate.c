@@ -6,9 +6,10 @@
 #include <math.h>
 #include <sys/resource.h>
 
-#define GET_BIT(data, address) data[address/8]&(1<<(address%8))
-#define SET_BIT(data, address) data[address/8]|=(1<<(address%8))
-#define CLEAR_BIT(data, address) data[address/8]^=(1<<(address%8))
+#define BIT_SET(data, address) data[(address)/8]&(1<<((address)%8))
+#define BIT_CLEARED(data, address) (data[(address)/8]&(1<<((address)%8)))==0
+#define SET_BIT(data, address) data[(address)/8]|=(1<<((address)%8))
+#define CLEAR_BIT(data, address) data[(address)/8]^=(1<<((address)%8))
 
 int use_malloc(size_t size){
      struct rlimit rlim;
@@ -23,6 +24,12 @@ int use_malloc(size_t size){
 	  return 1;
      } else {
 	  return 0;
+     }
+}
+
+void init_mem_uint8(size_t size, uint8_t* memory){
+     for (size_t i=0; i<size; i++){
+	  memory[i] = 0;
      }
 }
 
@@ -62,9 +69,10 @@ void sieve_u(unsigned int max){
 	  sieve = sieve_arr;
      }
      //Fill sieve
-     for (unsigned int divnum=3; divnum<half_max; divnum+=2){
+     init_mem_uint8(needed_mem_size, sieve);
+     for (unsigned int divnum=3; divnum<=half_max; divnum+=2){
 	  unsigned int max_fill_number = max-(max%divnum);
-	  for (unsigned int j=divnum; j<=max_fill_number; j+=divnum){
+	  for (unsigned int j=(divnum*2); j<=max_fill_number; j+=divnum){
 	       if (j%2){
 		    SET_BIT(sieve, (j/2)-1);
 	       }
@@ -72,8 +80,8 @@ void sieve_u(unsigned int max){
      }
      //Print primes
      for (unsigned int i=0; i<needed_nums; i++){
-	  if (!(GET_BIT(sieve, i))){
-	       fprintf(stdout, "%u\n", i+3);
+	  if (BIT_CLEARED(sieve, i)){
+	       fprintf(stdout, "%u\n", (i*2)+3);
 	  }
      }
 
@@ -112,9 +120,10 @@ void sieve_ul(unsigned long max){
      size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
      uint8_t* sieve = malloc(needed_mem_size);
      //Fill sieve
-     for (unsigned long divnum=3; divnum<half_max; divnum+=2){
+     init_mem_uint8(needed_mem_size, sieve);
+     for (unsigned long divnum=3; divnum<=half_max; divnum+=2){
 	  unsigned long max_fill_number = max-(max%divnum);
-	  for (unsigned long j=divnum; j<=max_fill_number; j+=divnum){
+	  for (unsigned long j=(divnum*2); j<=max_fill_number; j+=divnum){
 	       if (j%2){
 		    SET_BIT(sieve, (j/2)-1);
 	       }
@@ -122,8 +131,8 @@ void sieve_ul(unsigned long max){
      }
      //Print primes
      for (unsigned long i=0; i<needed_nums; i++){
-	  if (!(GET_BIT(sieve, i))){
-	       fprintf(stdout, "%lu\n", i+3);
+	  if (BIT_CLEARED(sieve, i)){
+	       fprintf(stdout, "%lu\n", (i*2)+3);
 	  }
      }
 
@@ -160,9 +169,10 @@ void sieve_ull(unsigned long long max){
      size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
      uint8_t* sieve = malloc(needed_mem_size);
      //Fill sieve
-     for (unsigned long long divnum=3; divnum<half_max; divnum+=2){
+     init_mem_uint8(needed_mem_size, sieve);
+     for (unsigned long long divnum=3; divnum<=half_max; divnum+=2){
 	  unsigned long long max_fill_number = max-(max%divnum);
-	  for (unsigned long long j=divnum; j<=max_fill_number; j+=divnum){
+	  for (unsigned long long j=(divnum*2); j<=max_fill_number; j+=divnum){
 	       if (j%2){
 		    SET_BIT(sieve, (j/2)-1);
 	       }
@@ -170,8 +180,8 @@ void sieve_ull(unsigned long long max){
      }
      //Print primes
      for (unsigned long long i=0; i<needed_nums; i++){
-	  if (!(GET_BIT(sieve, i))){
-	       fprintf(stdout, "%llu\n", i+3);
+	  if (BIT_CLEARED(sieve, i)){
+	       fprintf(stdout, "%llu\n", (i*2)+3);
 	  }
      }
 
@@ -200,20 +210,20 @@ int main(int argc, char** argv){
 	  //Unsigned int
 	  if (max_num<=UINT_MAX){
 	       unsigned int max_num_sm = max_num;
-	       check_primes_u(max_num_sm);
-	       //sieve_u(max_num_sm);
+	       //check_primes_u(max_num_sm);
+	       sieve_u(max_num_sm);
 	       return 0;
 	  }
 
 	  //Unsigned long int
 	  unsigned long max_num_sm = max_num;
-	  check_primes_ul(max_num_sm);
-	  //sieve_ul(max_num_sm);
+	  //check_primes_ul(max_num_sm);
+	  sieve_ul(max_num_sm);
 	  return 0;
      } else {
 	  //Unsigned long long int
-	  check_primes_ull(max_num);
-	  //sieve_ull(max_num_sm);
+	  //check_primes_ull(max_num);
+	  sieve_ull(max_num);
 	  return 0;
      }
 }
