@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <errno.h>
+#include <math.h>
 
 int is_prime_u(unsigned int num){
-     unsigned int max_num = num/2;
+     unsigned int max_num = sqrt(num);
      for (unsigned int i = 2; i<=max_num; i++){
 	  if (num%i == 0){
 	       return 0;
@@ -14,7 +15,7 @@ int is_prime_u(unsigned int num){
 }
 
 int is_prime_ul(unsigned long num){
-     unsigned long max_num = num/2;
+     unsigned long max_num = sqrt(num);
      for (unsigned long i = 2; i<=max_num; i++){
 	  if (num%i == 0){
 	       return 0;
@@ -24,7 +25,7 @@ int is_prime_ul(unsigned long num){
 }
 
 int is_prime_ull(unsigned long long num){
-     unsigned long long max_num = num/2;
+     unsigned long long max_num = sqrt(num);
      for (unsigned long long i = 2; i<=max_num; i++){
 	  if (num%i == 0){
 	       return 0;
