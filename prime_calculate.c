@@ -51,7 +51,7 @@ int main(int argc, char** argv){
 	  //Unsigned int
 	  if (max_num<=UINT_MAX){
 	       unsigned int max_num_sm = max_num;
-	       for (unsigned int i=1; i<=max_num_sm; i++){
+	       for (unsigned int i=1; i<=max_num_sm; i+=2){
 		    if(is_prime_u(i)){
 			 fprintf(stdout, "%u\n", i);
 		    }
@@ -61,7 +61,7 @@ int main(int argc, char** argv){
 
 	  //Unsigned long int
 	  unsigned long max_num_sm = max_num;
-	  for (unsigned long i=1; i<= max_num_sm; i++){
+	  for (unsigned long i=1; i<= max_num_sm; i+=2){
 	       if(is_prime_ul(i)){
 		    fprintf(stdout, "%lu\n", i);
 	       }
@@ -69,7 +69,7 @@ int main(int argc, char** argv){
 	  return 0;
      } else {
 	  //Unsigned long long int
-	  for (unsigned long long i=1; i<= max_num; i++){
+	  for (unsigned long long i=1; i<= max_num; i+=2){
 	       if(is_prime_ull(i)){
 		    fprintf(stdout, "%llu\n", i);
 	       }
