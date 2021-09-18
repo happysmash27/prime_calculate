@@ -44,50 +44,54 @@ int is_prime_u(unsigned int num){
 }
 
 void check_primes_u(unsigned int max){
-     fputc('2', stdout);
-     fputc('\n', stdout);
-     for (unsigned int i=3; i<=max; i+=2){
-	  if(is_prime_u(i)){
-	       fprintf(stdout, "%u\n", i);
+     if (max>=2){
+	  fputc('2', stdout);
+	  fputc('\n', stdout);
+	  for (unsigned int i=3; i<=max; i+=2){
+	       if(is_prime_u(i)){
+		    fprintf(stdout, "%u\n", i);
+	       }
 	  }
      }
 }
 
 void sieve_u(unsigned int max){
-     unsigned int sqrt_max = sqrt(max);
-     //Allocate memory
-     size_t needed_nums = (max/2)-1+(max%2);
-     size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
-     int should_use_malloc = use_malloc(needed_mem_size);
-     uint8_t* sieve;
-     if (should_use_malloc){
-	  sieve = malloc(needed_mem_size);
-     } else {
-	  uint8_t sieve_arr[needed_mem_size];
-	  sieve = sieve_arr;
-     }
-     //Fill sieve
-     init_mem_uint8(needed_mem_size, sieve);
-     for (unsigned int divnum=3; divnum<=sqrt_max; divnum+=2){
-	  unsigned int max_fill_number = max-(max%divnum);
-	  for (unsigned int j=(divnum*2); j<=max_fill_number; j+=divnum){
-	       if (j%2){
-		    SET_BIT(sieve, (j/2)-1);
+     if (max>=2){
+	  unsigned int sqrt_max = sqrt(max);
+	  //Allocate memory
+	  size_t needed_nums = (max/2)-1+(max%2);
+	  size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
+	  int should_use_malloc = use_malloc(needed_mem_size);
+	  uint8_t* sieve;
+	  if (should_use_malloc){
+	       sieve = malloc(needed_mem_size);
+	  } else {
+	       uint8_t sieve_arr[needed_mem_size];
+	       sieve = sieve_arr;
+	  }
+	  //Fill sieve
+	  init_mem_uint8(needed_mem_size, sieve);
+	  for (unsigned int divnum=3; divnum<=sqrt_max; divnum+=2){
+	       unsigned int max_fill_number = max-(max%divnum);
+	       for (unsigned int j=(divnum*2); j<=max_fill_number; j+=divnum){
+		    if (j%2){
+			 SET_BIT(sieve, (j/2)-1);
+		    }
 	       }
 	  }
-     }
-     //Print primes
-     fputc('2', stdout);
-     fputc('\n', stdout);
-     for (unsigned int i=0; i<needed_nums; i++){
-	  if (BIT_CLEARED(sieve, i)){
-	       fprintf(stdout, "%u\n", (i*2)+3);
+	  //Print primes
+	  fputc('2', stdout);
+	  fputc('\n', stdout);
+	  for (unsigned int i=0; i<needed_nums; i++){
+	       if (BIT_CLEARED(sieve, i)){
+		    fprintf(stdout, "%u\n", (i*2)+3);
+	       }
 	  }
-     }
 
-     //Free resources
-     if (should_use_malloc){
-	  free(sieve);
+	  //Free resources
+	  if (should_use_malloc){
+	       free(sieve);
+	  }
      }
 }
 
@@ -102,42 +106,46 @@ int is_prime_ul(unsigned long num){
 }
 
 void check_primes_ul(unsigned long max){
-     fputc('2', stdout);
-     fputc('\n', stdout);
-     for (unsigned long i=3; i<=max; i+=2){
-	  if(is_prime_ul(i)){
-	       fprintf(stdout, "%lu\n", i);
+     if (max>=2){
+	  fputc('2', stdout);
+	  fputc('\n', stdout);
+	  for (unsigned long i=3; i<=max; i+=2){
+	       if(is_prime_ul(i)){
+		    fprintf(stdout, "%lu\n", i);
+	       }
 	  }
      }
 }
 
 void sieve_ul(unsigned long max){
-     unsigned long sqrt_max = sqrt(max);
-     //Allocate memory
-     size_t needed_nums = (max/2)-1+(max%2);
-     size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
-     uint8_t* sieve = malloc(needed_mem_size);
-     //Fill sieve
-     init_mem_uint8(needed_mem_size, sieve);
-     for (unsigned long divnum=3; divnum<=sqrt_max; divnum+=2){
-	  unsigned long max_fill_number = max-(max%divnum);
-	  for (unsigned long j=(divnum*2); j<=max_fill_number; j+=divnum){
-	       if (j%2){
-		    SET_BIT(sieve, (j/2)-1);
+     if (max>=2){
+	  unsigned long sqrt_max = sqrt(max);
+	  //Allocate memory
+	  size_t needed_nums = (max/2)-1+(max%2);
+	  size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
+	  uint8_t* sieve = malloc(needed_mem_size);
+	  //Fill sieve
+	  init_mem_uint8(needed_mem_size, sieve);
+	  for (unsigned long divnum=3; divnum<=sqrt_max; divnum+=2){
+	       unsigned long max_fill_number = max-(max%divnum);
+	       for (unsigned long j=(divnum*2); j<=max_fill_number; j+=divnum){
+		    if (j%2){
+			 SET_BIT(sieve, (j/2)-1);
+		    }
 	       }
 	  }
-     }
-     //Print primes
-     fputc('2', stdout);
-     fputc('\n', stdout);
-     for (unsigned long i=0; i<needed_nums; i++){
-	  if (BIT_CLEARED(sieve, i)){
-	       fprintf(stdout, "%lu\n", (i*2)+3);
+	  //Print primes
+	  fputc('2', stdout);
+	  fputc('\n', stdout);
+	  for (unsigned long i=0; i<needed_nums; i++){
+	       if (BIT_CLEARED(sieve, i)){
+		    fprintf(stdout, "%lu\n", (i*2)+3);
+	       }
 	  }
-     }
 
-     //Free resources
-     free(sieve);
+	  //Free resources
+	  free(sieve);
+     }
 }
 
 int is_prime_ull(unsigned long long num){
@@ -151,42 +159,46 @@ int is_prime_ull(unsigned long long num){
 }
 
 void check_primes_ull(unsigned long long max){
-     fputc('2', stdout);
-     fputc('\n', stdout);
-     for (unsigned long long i=3; i<=max; i+=2){
-	  if(is_prime_ull(i)){
-	       fprintf(stdout, "%llu\n", i);
+     if (max>=2){
+	  fputc('2', stdout);
+	  fputc('\n', stdout);
+	  for (unsigned long long i=3; i<=max; i+=2){
+	       if(is_prime_ull(i)){
+		    fprintf(stdout, "%llu\n", i);
+	       }
 	  }
      }
 }
 
 void sieve_ull(unsigned long long max){
-     unsigned long long sqrt_max = sqrt(max);
-     //Allocate memory
-     size_t needed_nums = (max/2)-1+(max%2);
-     size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
-     uint8_t* sieve = malloc(needed_mem_size);
-     //Fill sieve
-     init_mem_uint8(needed_mem_size, sieve);
-     for (unsigned long long divnum=3; divnum<=sqrt_max; divnum+=2){
-	  unsigned long long max_fill_number = max-(max%divnum);
-	  for (unsigned long long j=(divnum*2); j<=max_fill_number; j+=divnum){
-	       if (j%2){
-		    SET_BIT(sieve, (j/2)-1);
+     if (max>=2){
+	  unsigned long long sqrt_max = sqrt(max);
+	  //Allocate memory
+	  size_t needed_nums = (max/2)-1+(max%2);
+	  size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
+	  uint8_t* sieve = malloc(needed_mem_size);
+	  //Fill sieve
+	  init_mem_uint8(needed_mem_size, sieve);
+	  for (unsigned long long divnum=3; divnum<=sqrt_max; divnum+=2){
+	       unsigned long long max_fill_number = max-(max%divnum);
+	       for (unsigned long long j=(divnum*2); j<=max_fill_number; j+=divnum){
+		    if (j%2){
+			 SET_BIT(sieve, (j/2)-1);
+		    }
 	       }
 	  }
-     }
-     //Print primes
-     fputc('2', stdout);
-     fputc('\n', stdout);
-     for (unsigned long long i=0; i<needed_nums; i++){
-	  if (BIT_CLEARED(sieve, i)){
-	       fprintf(stdout, "%llu\n", (i*2)+3);
+	  //Print primes
+	  fputc('2', stdout);
+	  fputc('\n', stdout);
+	  for (unsigned long long i=0; i<needed_nums; i++){
+	       if (BIT_CLEARED(sieve, i)){
+		    fprintf(stdout, "%llu\n", (i*2)+3);
+	       }
 	  }
-     }
 
-     //Free resources
-     free(sieve);
+	  //Free resources
+	  free(sieve);
+     }
 }
 
 int main(int argc, char** argv){
