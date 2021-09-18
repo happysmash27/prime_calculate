@@ -4,7 +4,8 @@
 #include <errno.h>
 
 int is_prime_u(unsigned int num){
-     for (unsigned int i = 2; i<=num/2; i++){
+     unsigned int max_num = num/2;
+     for (unsigned int i = 2; i<=max_num; i++){
 	  if (num%i == 0){
 	       return 0;
 	  }
@@ -13,7 +14,8 @@ int is_prime_u(unsigned int num){
 }
 
 int is_prime_ul(unsigned long num){
-     for (unsigned long i = 2; i<=num/2; i++){
+     unsigned long max_num = num/2;
+     for (unsigned long i = 2; i<=max_num; i++){
 	  if (num%i == 0){
 	       return 0;
 	  }
@@ -22,7 +24,8 @@ int is_prime_ul(unsigned long num){
 }
 
 int is_prime_ull(unsigned long long num){
-     for (unsigned long long i = 2; i<=num/2; i++){
+     unsigned long long max_num = num/2;
+     for (unsigned long long i = 2; i<=max_num; i++){
 	  if (num%i == 0){
 	       return 0;
 	  }
