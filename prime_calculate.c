@@ -56,9 +56,9 @@ void check_primes_u(unsigned int max){
 void sieve_u(unsigned int max){
      fputc('2', stdout);
      fputc('\n', stdout);
-     unsigned int half_max = max/2;
+     unsigned int sqrt_max = sqrt(max);
      //Allocate memory
-     size_t needed_nums = half_max-1+(max%2);
+     size_t needed_nums = (max/2)-1+(max%2);
      size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
      int should_use_malloc = use_malloc(needed_mem_size);
      uint8_t* sieve;
@@ -70,7 +70,7 @@ void sieve_u(unsigned int max){
      }
      //Fill sieve
      init_mem_uint8(needed_mem_size, sieve);
-     for (unsigned int divnum=3; divnum<=half_max; divnum+=2){
+     for (unsigned int divnum=3; divnum<=sqrt_max; divnum+=2){
 	  unsigned int max_fill_number = max-(max%divnum);
 	  for (unsigned int j=(divnum*2); j<=max_fill_number; j+=divnum){
 	       if (j%2){
@@ -114,14 +114,14 @@ void check_primes_ul(unsigned long max){
 void sieve_ul(unsigned long max){
      fputc('2', stdout);
      fputc('\n', stdout);
-     unsigned long half_max = max/2;
+     unsigned long sqrt_max = sqrt(max);
      //Allocate memory
-     size_t needed_nums = half_max-1+(max%2);
+     size_t needed_nums = (max/2)-1+(max%2);
      size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
      uint8_t* sieve = malloc(needed_mem_size);
      //Fill sieve
      init_mem_uint8(needed_mem_size, sieve);
-     for (unsigned long divnum=3; divnum<=half_max; divnum+=2){
+     for (unsigned long divnum=3; divnum<=sqrt_max; divnum+=2){
 	  unsigned long max_fill_number = max-(max%divnum);
 	  for (unsigned long j=(divnum*2); j<=max_fill_number; j+=divnum){
 	       if (j%2){
@@ -163,14 +163,14 @@ void check_primes_ull(unsigned long long max){
 void sieve_ull(unsigned long long max){
      fputc('2', stdout);
      fputc('\n', stdout);
-     unsigned long long half_max = max/2;
+     unsigned long long sqrt_max = sqrt(max);
      //Allocate memory
-     size_t needed_nums = half_max-1+(max%2);
+     size_t needed_nums = (max/2)-1+(max%2);
      size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
      uint8_t* sieve = malloc(needed_mem_size);
      //Fill sieve
      init_mem_uint8(needed_mem_size, sieve);
-     for (unsigned long long divnum=3; divnum<=half_max; divnum+=2){
+     for (unsigned long long divnum=3; divnum<=sqrt_max; divnum+=2){
 	  unsigned long long max_fill_number = max-(max%divnum);
 	  for (unsigned long long j=(divnum*2); j<=max_fill_number; j+=divnum){
 	       if (j%2){
