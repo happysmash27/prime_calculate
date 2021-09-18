@@ -18,11 +18,14 @@ int use_malloc(size_t size){
 	  //Do not use malloc, as we can not ensure the stack is safe
 	  return 1;
      }
+     //fprintf(stderr, "Stack size: %lu. Size: %lu. ", rlim.rlim_cur, size);
      //Just use 3/4 our max stack size for now.
      //We could probably make it more efficient in the future
-     if (size>(rlim.rlim_cur*(3/4))){
+     if (size<(rlim.rlim_cur*(3/4))){
+	  //fprintf(stderr, "Size is too large for stack; using malloc.\n");
 	  return 1;
      } else {
+	  //fprintf(stderr, "Size is small enough to fit on stack! Using stack.\n");
 	  return 0;
      }
 }
@@ -64,8 +67,10 @@ void sieve_u(unsigned int max){
 	  int should_use_malloc = use_malloc(needed_mem_size);
 	  uint8_t* sieve;
 	  if (should_use_malloc){
+	       //fprintf(stderr, "using malloc\n");
 	       sieve = malloc(needed_mem_size);
 	  } else {
+	       //fprintf(stderr, "using stack\n");
 	       uint8_t sieve_arr[needed_mem_size];
 	       sieve = sieve_arr;
 	  }
