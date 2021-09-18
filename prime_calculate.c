@@ -54,8 +54,6 @@ void check_primes_u(unsigned int max){
 }
 
 void sieve_u(unsigned int max){
-     fputc('2', stdout);
-     fputc('\n', stdout);
      unsigned int sqrt_max = sqrt(max);
      //Allocate memory
      size_t needed_nums = (max/2)-1+(max%2);
@@ -79,6 +77,8 @@ void sieve_u(unsigned int max){
 	  }
      }
      //Print primes
+     fputc('2', stdout);
+     fputc('\n', stdout);
      for (unsigned int i=0; i<needed_nums; i++){
 	  if (BIT_CLEARED(sieve, i)){
 	       fprintf(stdout, "%u\n", (i*2)+3);
@@ -112,8 +112,6 @@ void check_primes_ul(unsigned long max){
 }
 
 void sieve_ul(unsigned long max){
-     fputc('2', stdout);
-     fputc('\n', stdout);
      unsigned long sqrt_max = sqrt(max);
      //Allocate memory
      size_t needed_nums = (max/2)-1+(max%2);
@@ -130,6 +128,8 @@ void sieve_ul(unsigned long max){
 	  }
      }
      //Print primes
+     fputc('2', stdout);
+     fputc('\n', stdout);
      for (unsigned long i=0; i<needed_nums; i++){
 	  if (BIT_CLEARED(sieve, i)){
 	       fprintf(stdout, "%lu\n", (i*2)+3);
@@ -161,8 +161,6 @@ void check_primes_ull(unsigned long long max){
 }
 
 void sieve_ull(unsigned long long max){
-     fputc('2', stdout);
-     fputc('\n', stdout);
      unsigned long long sqrt_max = sqrt(max);
      //Allocate memory
      size_t needed_nums = (max/2)-1+(max%2);
@@ -179,6 +177,8 @@ void sieve_ull(unsigned long long max){
 	  }
      }
      //Print primes
+     fputc('2', stdout);
+     fputc('\n', stdout);
      for (unsigned long long i=0; i<needed_nums; i++){
 	  if (BIT_CLEARED(sieve, i)){
 	       fprintf(stdout, "%llu\n", (i*2)+3);
