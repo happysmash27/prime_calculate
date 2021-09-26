@@ -22,10 +22,10 @@ int use_malloc(size_t size){
      //Just use 3/4 our max stack size for now.
      //We could probably make it more efficient in the future
      if (size<(rlim.rlim_cur*(3/4))){
-	  //fprintf(stderr, "Size is too large for stack; using malloc.\n");
+	  //fprintf(stderr, "Size %ld is too large for stack; using malloc.\n", size);
 	  return 1;
      } else {
-	  //fprintf(stderr, "Size is small enough to fit on stack! Using stack.\n");
+	  //fprintf(stderr, "Size %ld is small enough to fit on stack! Using stack.\n", size);
 	  return 0;
      }
 }
@@ -58,44 +58,47 @@ void check_primes_u(unsigned int max){
      }
 }
 
+void sieve_u_intern(unsigned int max, size_t needed_nums, uint8_t* sieve){
+     unsigned int sqrt_max = sqrt(max);
+     for (unsigned int divnum=3; divnum<=sqrt_max; divnum+=2){
+	  unsigned int max_fill_number = max-(max%divnum);
+	  for (unsigned int j=(divnum*2); j<=max_fill_number; j+=divnum){
+	       if (j%2){
+		    SET_BIT(sieve, (j/2)-1);
+	       }
+	  }
+     }
+     //Print primes
+     fputc('2', stdout);
+     fputc('\n', stdout);
+     for (unsigned int i=0; i<needed_nums; i++){
+	  if (BIT_CLEARED(sieve, i)){
+	       fprintf(stdout, "%u\n", (i*2)+3);
+	  }
+     }
+}
+
 void sieve_u(unsigned int max){
      if (max>=2){
-	  unsigned int sqrt_max = sqrt(max);
 	  //Allocate memory
 	  size_t needed_nums = (max/2)-1+(max%2);
 	  size_t needed_mem_size = (needed_nums/8)+((needed_nums%8)>0);
 	  int should_use_malloc = use_malloc(needed_mem_size);
-	  uint8_t* sieve;
 	  if (should_use_malloc){
 	       //fprintf(stderr, "using malloc\n");
-	       sieve = malloc(needed_mem_size);
+	       uint8_t* sieve = malloc(needed_mem_size);
+	       
+	       //Fill sieve
+	       init_mem_uint8(needed_mem_size, sieve);
+	       sieve_u_intern(max, needed_nums, sieve);
+
+	       //Free resources
+	       free(sieve);
 	  } else {
 	       //fprintf(stderr, "using stack\n");
-	       uint8_t sieve_arr[needed_mem_size];
-	       sieve = sieve_arr;
-	  }
-	  //Fill sieve
-	  init_mem_uint8(needed_mem_size, sieve);
-	  for (unsigned int divnum=3; divnum<=sqrt_max; divnum+=2){
-	       unsigned int max_fill_number = max-(max%divnum);
-	       for (unsigned int j=(divnum*2); j<=max_fill_number; j+=divnum){
-		    if (j%2){
-			 SET_BIT(sieve, (j/2)-1);
-		    }
-	       }
-	  }
-	  //Print primes
-	  fputc('2', stdout);
-	  fputc('\n', stdout);
-	  for (unsigned int i=0; i<needed_nums; i++){
-	       if (BIT_CLEARED(sieve, i)){
-		    fprintf(stdout, "%u\n", (i*2)+3);
-	       }
-	  }
-
-	  //Free resources
-	  if (should_use_malloc){
-	       free(sieve);
+	       uint8_t sieve[needed_mem_size];
+	       
+	       sieve_u_intern(max, needed_nums, sieve);
 	  }
      }
 }
