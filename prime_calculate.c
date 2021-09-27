@@ -21,12 +21,12 @@ int use_malloc(size_t size){
      //fprintf(stderr, "Stack size: %lu. Size: %lu. ", rlim.rlim_cur, size);
      //Just use 3/4 our max stack size for now.
      //We could probably make it more efficient in the future
-     if (size<(rlim.rlim_cur*(3/4))){
-	  fprintf(stderr, "Size %ld is too large for stack; using malloc.\n", size);
-	  return 1;
-     } else {
-	  fprintf(stderr, "Size %ld is small enough to fit on stack! Using stack.\n", size);
+     if (size<((rlim.rlim_cur*3)/4)){
+	  //fprintf(stderr, "Size %ld is small enough to fit on stack size %ld; using stack.\n", size, rlim.rlim_cur);
 	  return 0;
+     } else {
+	  //fprintf(stderr, "Size %ld is too large for stack size %ld; using malloc.\n", size, rlim.rlim_cur);
+	  return 1;
      }
 }
 
